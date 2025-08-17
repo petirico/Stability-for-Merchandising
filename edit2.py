@@ -17,7 +17,7 @@ load_dotenv(find_dotenv(usecwd=True), override=False)
 
 # Defaults: ensure all tests/examples use these paths
 DEFAULT_IMAGE_PATH = os.getenv("EDIT_IMAGE_PATH", "men.png")
-DEFAULT_MASK_PATH = os.getenv("EDIT_MASK_PATH", "mask.png")
+DEFAULT_MASK_PATH = os.getenv("EDIT_MASK_PATH", "mask_polo.png")
 RESULTS_ROOT = os.getenv("RESULTS_DIR", "results")
 
 class StabilityImageEditor:
@@ -102,7 +102,7 @@ class StabilityImageEditor:
         # Fallback
         return img.convert('L')
 
-    def feather_mask(self, mask: Image.Image, radius: int = 12) -> Image.Image:
+    def feather_mask(self, mask: Image.Image, radius: int = 14) -> Image.Image:
         """
         Feather the white edges of a binary mask while keeping pure black (0) unchanged.
         """
@@ -444,8 +444,8 @@ def example_morne_background_and_face(
     save_debug_mask: bool = True,
     apply_project_protection: bool = True,
     apply_polo_protection: bool = False,
-    feather_radius: int = 12,
-    grow_mask: int = 8,
+    feather_radius: int = 16,
+    grow_mask: int = 10,
 ):
     """
     1) Replace background with summit view of Le Morne Mountain (Mauritius)
