@@ -1,0 +1,15 @@
+api_endpoint: https://api.stability.ai/v2beta/stable-image/edit/inpaint
+accept: image/*
+output_format: png
+seed: 0
+negative_prompt: crowds, artifacts, extra text
+prompt: photorealistic summit of Le Morne Brabant, Mauritius, panoramic ocean view, natural daylight; handsome 35-year-old male model, realistic facial features, balanced skin tones; keep clothing as a clean white polo shirt
+image_path: men.png
+mask_from: mask.png
+include_background_mask: False
+include_face_mask: False
+apply_project_protection: True
+apply_polo_protection: True
+save_debug_mask: True
+editable_ratio: 0.594014
+saved_result: results/20250817_140718/morne_background_and_face_20250817_140739.png
