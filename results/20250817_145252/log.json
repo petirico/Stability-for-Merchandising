@@ -1,0 +1,13 @@
+{
+  "api_endpoint": "https://api.stability.ai/v2beta/stable-image/edit/replace-background-and-relight",
+  "background_prompt": "summit of Le Morne Brabant, Mauritius, cinematic light",
+  "foreground_prompt": "handsome 35-year-old male, white polo, natural skin tones",
+  "negative_prompt": "crowds, artifacts, extra text",
+  "keep_original_background": false,
+  "light_source_direction": "above",
+  "subject": "men.png",
+  "saved_response": "results/20250817_145252/relight_response_20250817_145301.json",
+  "generation_id": "638da83e3f677647f18befcfbf2e68922c4d4d01d807460997bc4daf1935d7c3",
+  "result_saved": "results/20250817_145252/relight_result_20250817_145325.png",
+  "ok": true
+}

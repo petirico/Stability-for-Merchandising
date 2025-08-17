@@ -413,7 +413,7 @@ def example_morne_background_and_face(
     include_face_mask: bool = False,
     save_debug_mask: bool = True,
     apply_project_protection: bool = True,
-    apply_polo_protection: bool = True,
+    apply_polo_protection: bool = False,
 ):
     """
     1) Replace background with summit view of Le Morne Mountain (Mauritius)
