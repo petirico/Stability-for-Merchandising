@@ -1,10 +1,10 @@
-## Éditeur d’images (Stability AI Inpaint)
+## Image Editor (Stability AI Inpaint)
 
-Ce projet montre comment éditer une image via l’API « inpaint » de Stability AI, avec prise en charge d’un masque de protection, d’options d’édition (visage/fond), et d’un système de dossiers de résultats horodatés contenant les images et les logs.
+This project demonstrates how to edit an image via Stability AI's "inpaint" API, with support for a protection mask, editing options (face/background), and timestamped result folders containing images and logs.
 
-### Prérequis
+### Prerequisites
 - Python 3.10+
-- Une clé API Stability AI active
+- An active Stability AI API key
 
 ### Installation
 ```bash
@@ -15,96 +15,96 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-Si vous ne souhaitez pas utiliser `requirements.txt`:
+If you do not want to use `requirements.txt`:
 ```bash
 python -m pip install requests pillow opencv-python numpy python-dotenv
 ```
 
 ### Configuration (.env)
-Créez un fichier `.env` à la racine :
+Create a `.env` file at the project root:
 ```
 STABILITY_API_KEY=sk-xxxxxxxxxxxxxxxx
 
-# Optionnel
-EDIT_IMAGE_PATH=men.png          # image par défaut
-EDIT_MASK_PATH=mask.png          # masque projet (noir = protégé, blanc = éditable)
-RESULTS_DIR=results              # racine où stocker les runs
+# Optional
+EDIT_IMAGE_PATH=men.png          # default image
+EDIT_MASK_PATH=mask.png          # project mask (black = protected, white = editable)
+RESULTS_DIR=results              # root folder to store runs
 ```
 
-> Remarque: `.env`, `.venv/` et `__pycache__/` sont ignorés par Git (.gitignore inclus).
+> Note: `.env`, `.venv/`, and `__pycache__/` are ignored by Git (included in .gitignore).
 
-### Lancement rapide
+### Quick Start
 ```bash
 source .venv/bin/activate
-# Exemple simple: n’éditer que les zones blanches de mask.png
+# Simple example: only edit the white areas of mask.png
 python -c "from edit import example_protect_areas as run; run()"
 
-# Exemple avancé (Le Morne + visage), sans masques spécifiques (tout éditable), mais avec protections désactivées
+# Advanced example (Le Morne + face), with no specific masks (everything editable), protections disabled
 python -c "from edit import example_morne_background_and_face as run; run(include_background_mask=False, include_face_mask=False, apply_project_protection=False, apply_polo_protection=False)"
 ```
 
-### Où se trouvent les résultats ?
-- À chaque exécution, un dossier `results/<timestamp>/` est créé.
-- Il contient :
-  - `men.png` (copie de l’image d’entrée)
-  - `mask_initial.png` (si protection projet activée)
-  - `debug_final_mask_<timestamp>.png` (si `save_debug_mask=True`)
-  - `*_ <timestamp>.png` (image(s) de sortie)
-  - `log.txt` et `log.json` (tous les paramètres utilisés)
+### Where are the results saved?
+- Each run creates a `results/<timestamp>/` folder.
+- It contains:
+  - `men.png` (a copy of the input image)
+  - `mask_initial.png` (if project protection was enabled)
+  - `debug_final_mask_<timestamp>.png` (if `save_debug_mask=True`)
+  - `*_<timestamp>.png` (output image(s))
+  - `log.txt` and `log.json` (all parameters used)
 
-### Signification du masque
-- Noir (0) = protégé, aucune modification.
-- Blanc (255) = zone éditable par le modèle.
+### Mask meaning
+- Black (0) = protected, no modification.
+- White (255) = area editable by the model.
 
-### API et paramètres clés
-Dans `edit.py`, la classe `StabilityImageEditor` appelle l’endpoint :
+### API and key parameters
+In `edit.py`, the `StabilityImageEditor` class calls the endpoint:
 ```
 https://api.stability.ai/v2beta/stable-image/edit/inpaint
 ```
-Headers :
+Headers:
 - `authorization: Bearer <STABILITY_API_KEY>`
 - `accept: image/*`
 
-Paramètres envoyés (multipart/form-data) :
-- `image` : l’image d’entrée
-- `mask` : masque unique généré côté client
-- `prompt` : description textuelle de ce qu’on veut générer
-- `negative_prompt` (optionnel)
-- `output_format` (par défaut `png`)
-- `seed` (0 = aléatoire côté API)
+Parameters sent (multipart/form-data):
+- `image`: input image
+- `mask`: single mask generated on the client side
+- `prompt`: textual description of what to generate
+- `negative_prompt` (optional)
+- `output_format` (default `png`)
+- `seed` (0 = random on the API side)
 
-### Fonctions d’exemple
-- `example_protect_areas()` : applique le prompt en respectant `mask.png`.
-- `example_change_background()` : demande un fond studio noir en respectant `mask.png`.
-- `example_morne_background_and_face(...)` : scénario avancé Le Morne/visage.
+### Example functions
+- `example_protect_areas()`: applies the prompt while respecting `mask.png`.
+- `example_change_background()`: requests a black studio background while respecting `mask.png`.
+- `example_morne_background_and_face(...)`: advanced Le Morne/face scenario.
 
-Signature de `example_morne_background_and_face` :
+Signature of `example_morne_background_and_face`:
 ```
-include_background_mask: bool = False     # ajoute un masque de fond auto (GrabCut)
-include_face_mask: bool = False           # ajoute un masque « visage » détecté
-save_debug_mask: bool = True              # sauvegarde le masque final
-apply_project_protection: bool = True     # applique le masque projet (EDIT_MASK_PATH)
-apply_polo_protection: bool = True        # protège le polo blanc détecté
+include_background_mask: bool = False     # add an automatic background mask (GrabCut)
+include_face_mask: bool = False           # add a detected "face" mask
+save_debug_mask: bool = True              # save the final mask
+apply_project_protection: bool = True     # apply the project mask (EDIT_MASK_PATH)
+apply_polo_protection: bool = True        # protect the detected white polo shirt
 ```
 
-Cas utiles :
+Useful cases:
 ```bash
-# 1) Sans aucun masque spécifique ni protection (tout éditable)
+# 1) No specific masks or protections (everything editable)
 python -c "from edit import example_morne_background_and_face as run; run(False, False, True, False, False)"
 
-# 2) Avec protection projet seulement (mask.png), sans masques auto
+# 2) With project protection only (mask.png), no auto masks
 python -c "from edit import example_morne_background_and_face as run; run(False, False, True, True, False)"
 
-# 3) Avec fond + visage + protections
+# 3) With background + face + protections
 python -c "from edit import example_morne_background_and_face as run; run(True, True, True, True, True)"
 ```
 
-### Dépannage
-- Masque tout noir => aucune zone éditable; vérifiez vos options et `debug_final_mask_*.png`.
-- Aucune génération => assurez-vous que `STABILITY_API_KEY` est bien chargé (visible dans votre shell) et que l’API répond.
-- Problèmes d’import `dotenv` dans l’IDE => sélectionnez l’interpréteur de `.venv`.
+### Troubleshooting
+- All-black mask => no editable area; check your options and `debug_final_mask_*.png`.
+- No generation => make sure `STABILITY_API_KEY` is loaded (visible in your shell) and the API is responsive.
+- `dotenv` import issues in the IDE => select the `.venv` interpreter.
 
-### Licence
-Usage interne/démonstration. Vérifiez les conditions d’utilisation de l’API Stability AI pour l’usage et la distribution des contenus.
+### License
+Internal/demo usage. Check Stability AI's Terms of Use for usage and content distribution.
 
 
