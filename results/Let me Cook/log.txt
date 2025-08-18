@@ -1,0 +1,17 @@
+api_endpoint: https://api.stability.ai/v2beta/stable-image/edit/inpaint
+accept: image/*
+output_format: png
+seed: 0
+negative_prompt: low quality, jpeg artifacts, noise, grain, motion blur, out of focus, overexposed, underexposed, harsh shadows, color banding, moire, color bleed, plastic skin, cartoon, illustration, cgi, 3d, deformed anatomy, extra limbs, warped fabric, bad perspective, duplicated person, reflection text, text, letters, words, typography, watermark, signature, logo, brand, misplaced label, sticker, badge, color shift, discoloration, crowd, extra text
+prompt: Photography, high-end fashion catalog, photorealistic. Subject: handsome 35-year-old male, neutral expression, chest-up mid-shot, facing camera, wearing a clean white polo shirt; natural fabric texture; preserve existing chest emblem; keep shirt color pure white. Background: Golden Gate Bridge, San Francisco; iconic red suspension cables, soft coastal fog, city skyline hints; elevated pedestrian viewpoint on the bridge, safety rails subtly visible, soft bokeh on distant spans. Lighting: late afternoon golden hour, natural daylight with soft rim light, balanced exposure, gentle shadows. Lens: 85mm, f/2.0, shallow depth of field, ISO 100. Composition: centered subject, proper headroom, straight horizon, bridge lines leading into background.
+image_path: let-me-cook.png
+mask_from: mask-1000.png
+include_background_mask: False
+include_face_mask: False
+apply_project_protection: True
+apply_polo_protection: False
+save_debug_mask: True
+editable_ratio: 0.782817
+saved_result: results/20250818_005235/morne_background_and_face_20250818_005254.png
+feather_radius: 16
+grow_mask: 10

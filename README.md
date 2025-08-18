@@ -26,9 +26,9 @@ Create a `.env` file at the project root:
 STABILITY_API_KEY=sk-xxxxxxxxxxxxxxxx
 
 # Optional
-EDIT_IMAGE_PATH=men.png          # default image
-EDIT_MASK_PATH=mask.png          # project mask (black = protected, white = editable)
-RESULTS_DIR=results              # root folder to store runs
+EDIT_IMAGE_PATH=images-src/let-me-cook.png   # default image used by let-me-cook-4.py
+EDIT_MASK_PATH=mask/tshirt-1000.png         # project mask (black = protected, white = editable)
+RESULTS_DIR=results                          # root folder to store runs
 ```
 
 > Note: `.env`, `.venv/`, and `__pycache__/` are ignored by Git (included in .gitignore).
@@ -36,11 +36,8 @@ RESULTS_DIR=results              # root folder to store runs
 ### Quick Start
 ```bash
 source .venv/bin/activate
-# Simple example: only edit the white areas of mask.png
-python -c "from edit import example_protect_areas as run; run()"
-
-# Advanced example (Le Morne + face), with no specific masks (everything editable), protections disabled
-python -c "from edit import example_morne_background_and_face as run; run(include_background_mask=False, include_face_mask=False, apply_project_protection=False, apply_polo_protection=False)"
+# Run the main "Let me cook" scenario
+python let-me-cook-4.py
 ```
 
 ### Where are the results saved?
@@ -57,7 +54,7 @@ python -c "from edit import example_morne_background_and_face as run; run(includ
 - White (255) = area editable by the model.
 
 ### API and key parameters
-In `edit.py`, the `StabilityImageEditor` class calls the endpoint:
+In `let-me-cook-4.py`, the `StabilityImageEditor` class calls the endpoint:
 ```
 https://api.stability.ai/v2beta/stable-image/edit/inpaint
 ```
@@ -73,36 +70,74 @@ Parameters sent (multipart/form-data):
 - `output_format` (default `png`)
 - `seed` (0 = random on the API side)
 
-### Example functions
-- `example_protect_areas()`: applies the prompt while respecting `mask.png`.
-- `example_change_background()`: requests a black studio background while respecting `mask.png`.
-- `example_morne_background_and_face(...)`: advanced Le Morne/face scenario.
+### Fonction principale et paramètres (let-me-cook-4.py)
+- `image_edit_background_and_face_mask(...)`: orchestre la création/combinaison du masque, l’adoucissement (plume) et l’appel API.
 
-Signature of `example_morne_background_and_face`:
+Signature réelle dans le script:
 ```
-include_background_mask: bool = False     # add an automatic background mask (GrabCut)
-include_face_mask: bool = False           # add a detected "face" mask
-save_debug_mask: bool = True              # save the final mask
-apply_project_protection: bool = True     # apply the project mask (EDIT_MASK_PATH)
-apply_polo_protection: bool = True        # protect the detected white polo shirt
+include_background_mask: bool = False
+include_face_mask: bool = False
+save_debug_mask: bool = True
+apply_project_protection: bool = True
+apply_polo_protection: bool = False
+feather_radius: int = 8
+grow_mask: int = 2
+inner_clip: int = 15
+gamma: float = 1.8
 ```
 
-Useful cases:
-```bash
-# 1) No specific masks or protections (everything editable)
-python -c "from edit import example_morne_background_and_face as run; run(False, False, True, False, False)"
-
-# 2) With project protection only (mask.png), no auto masks
-python -c "from edit import example_morne_background_and_face as run; run(False, False, True, True, False)"
-
-# 3) With background + face + protections
-python -c "from edit import example_morne_background_and_face as run; run(True, True, True, True, True)"
-```
+Astuce d’usage: lancez `python let-me-cook-4.py` pour les valeurs par défaut, puis ajustez les arguments en modifiant l’appel final à `image_edit_background_and_face_mask(...)` dans le fichier si vous souhaitez tester d’autres combinaisons.
 
 ### Troubleshooting
 - All-black mask => no editable area; check your options and `debug_final_mask_*.png`.
 - No generation => make sure `STABILITY_API_KEY` is loaded (visible in your shell) and the API is responsive.
 - `dotenv` import issues in the IDE => select the `.venv` interpreter.
+
+## Let me cook scenario (`let-me-cook-4.py`)
+
+This demo-oriented script combines background generation, optional face replacement, and targeted protections (project mask and white polo protection). It automatically creates a `results/<timestamp>/` folder with images and logs.
+
+### Run the example
+```bash
+source .venv/bin/activate
+python let-me-cook-4.py
+```
+
+By default it uses:
+- **source image**: `images-src/let-me-cook.png`
+- **project mask**: `mask/tshirt-1000.png`
+- **output**: a file `Cooked-Result_<timestamp>.png` in `results/<timestamp>/`
+
+### Mask granularity: grow and feather
+
+- **grow_mask**: expands the white (editable) area server‑side before inpainting.
+  - **Effect**: fills tiny gaps and helps avoid dark rims when the boundary is too tight.
+  - **Script default**: `grow_mask=2` pixels. Increase if seams are still visible.
+
+- **feather**: softens the transition at mask edges client‑side without graying the protected area.
+  - Implemented by `feather_mask(mask, radius, inner_clip, gamma)`:
+    - **radius**: Gaussian blur strength (e.g., `8`).
+    - **inner_clip**: clips low values near 0 back to 0 to keep protected regions fully black (prevents a halo on the protected side).
+    - **gamma**: transition curve on the editable side (e.g., `1.8`) for a crisper falloff.
+  - **Effect**: cleaner seam between the edit and the untouched area.
+
+These two knobs are complementary: start with moderate feather (radius ~8), then slightly increase `grow_mask` if an edge persists.
+
+### Key options in `let-me-cook-4.py`
+- **include_background_mask** / **include_face_mask**: add automatic masks (GrabCut and face detection).
+- **apply_project_protection**: apply the project mask (`mask/tshirt-1000.png`, black = protected).
+- **apply_polo_protection**: heuristically protect the detected white polo.
+- **feather_radius**, **grow_mask**, **inner_clip**, **gamma**: control feathering and mask growth (see above).
+
+### Before / After
+
+Input:
+
+![input let-me-cook](images-src/let-me-cook.png)
+
+Result (example from the repo):
+
+![result morne](results/Let%20me%20Cook%202/morne_background_and_face_20250818_190329.png)
 
 ### License
 Internal/demo usage. Check Stability AI's Terms of Use for usage and content distribution.
