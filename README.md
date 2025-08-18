@@ -75,18 +75,15 @@ Parameters sent (multipart/form-data):
 
 Actual signature in the script:
 ```
-include_background_mask: bool = False
-include_face_mask: bool = False
 save_debug_mask: bool = True
 apply_project_protection: bool = True
-apply_polo_protection: bool = False
 feather_radius: int = 8
 grow_mask: int = 2
 inner_clip: int = 15
 gamma: float = 1.8
 ```
 
-Tip: run `python let-me-cook-4.py` to use the default values, then adjust the arguments by editing the final call to `image_edit_background_and_face_mask(...)` in the file if you want to try other combinations.
+Tip: run `python let-me-cook-5.py` to use the default values, then adjust the arguments by editing the final call to `image_edit_background_and_face_mask(...)` in the file if you want to try other combinations.
 
 ### Troubleshooting
 - All-black mask => no editable area; check your options and `debug_final_mask_*.png`.
@@ -123,11 +120,23 @@ By default it uses:
 
 These two knobs are complementary: start with moderate feather (radius ~8), then slightly increase `grow_mask` if an edge persists.
 
-### Key options in `let-me-cook-4.py`
-- **include_background_mask** / **include_face_mask**: add automatic masks (GrabCut and face detection).
-- **apply_project_protection**: apply the project mask (`mask/tshirt-1000.png`, black = protected).
-- **apply_polo_protection**: heuristically protect the detected white polo.
-- **feather_radius**, **grow_mask**, **inner_clip**, **gamma**: control feathering and mask growth (see above).
+#### Hard edge (no fading)
+
+If you want a hard transition with no feathering at the mask boundary:
+- Set `feather_radius = 0` (feathering is skipped automatically when radius <= 0)
+- Set `inner_clip = 0`
+- Set `gamma = 1.0`
+- Set `grow_mask = 0` to avoid server-side expansion of the editable area
+
+Example call:
+```python
+image_edit_background_and_face_mask(
+    feather_radius=0,
+    inner_clip=0,
+    gamma=1.0,
+    grow_mask=0,
+)
+```
 
 ### Before / After
 
