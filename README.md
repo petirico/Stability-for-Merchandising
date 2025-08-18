@@ -137,7 +137,7 @@ Input:
 
 Result (example from the repo):
 
-![result morne](results/Let%20me%20Cook%202/morne_background_and_face_20250818_190329.png)
+![result morne](results/Let%20me%20Cook%203/Cooked-Result_20250818_194123.png)
 
 ### License
 Internal/demo usage. Check Stability AI's Terms of Use for usage and content distribution.

@@ -3,8 +3,8 @@
   "accept": "image/*",
   "output_format": "png",
   "seed": 0,
-  "negative_prompt": "low quality, jpeg artifacts, noise, grain, motion blur, out of focus, overexposed, underexposed, harsh shadows, color banding, moire, color bleed, plastic skin, cartoon, illustration, cgi, 3d, deformed anatomy, extra limbs, warped fabric, bad perspective, duplicated person, reflection text, text, letters, words, typography, watermark, signature, logo, brand, misplaced label, sticker, badge, color shift, discoloration, crowd, extra text",
-  "prompt": "Photography, high-end fashion catalog, photorealistic. Subject: handsome 35-year-old male, neutral expression, chest-up mid-shot, facing camera, wearing a clean white polo shirt; natural fabric texture; preserve existing chest emblem; keep shirt color pure white. Background: Golden Gate Bridge, San Francisco; iconic red suspension cables, soft coastal fog, city skyline hints; elevated pedestrian viewpoint on the bridge, safety rails subtly visible, soft bokeh on distant spans. Lighting: late afternoon golden hour, natural daylight with soft rim light, balanced exposure, gentle shadows. Lens: 85mm, f/2.0, shallow depth of field, ISO 100. Composition: centered subject, proper headroom, straight horizon, bridge lines leading into background.",
+  "negative_prompt": "low quality, jpeg artifacts, noise, grain, motion blur, out of focus, overexposed, underexposed, harsh shadows, color banding, moire, color bleed, plastic skin, cartoon, illustration, cgi, 3d, deformed anatomy, extra limbs, warped fabric, bad perspective, duplicated person, reflection text, text, letters, words, typography, watermark, signature, logo, brand, misplaced label, sticker, badge, outline, border, halo, vignette, color shift, discoloration, crowd, extra text",
+  "prompt": "Photography, high-end fashion catalog, photorealistic. Subject: handsome 35-year-old male, neutral expression, chest-up mid-shot, facing camera, wearing a clean white polo shirt; natural fabric texture; preserve existing chest emblem; keep shirt color pure white. Background: Ruined Golden Gate Bridge in post-AI dystopia — rusted suspension cables, fragmented structure, overgrowth of synthetic vines and cables; dense smog replaces coastal fog; remnants of San Francisco skyline obscured by monolithic AI surveillance towers and digital billboards flickering in disrepair; elevated pedestrian viewpoint still intact, but weathered and overrun by drone perches; safety rails rusted and warped; distant spans blurred with dystopian decay in soft bokeh. Lighting: harsh, cool-toned ambient light filtered through synthetic overcast; faint red glow from AI warning beacons; subtle rim lighting from low lateral source; contrast-balanced exposure with defined shadows. Lens: 85mm, f/2.0, shallow depth of field, ISO 100. Composition: centered subject, proper headroom, straight horizon, broken bridge lines still leading into depth for visual continuity.",
   "image_path": "images-src/let-me-cook.png",
   "mask_from": "mask/tshirt-1000.png",
   "include_background_mask": false,
@@ -12,8 +12,10 @@
   "apply_project_protection": true,
   "apply_polo_protection": false,
   "save_debug_mask": true,
-  "editable_ratio": 0.723583,
-  "saved_result": "results/20250818_190311/morne_background_and_face_20250818_190329.png",
-  "feather_radius": 16,
-  "grow_mask": 10
+  "editable_ratio": 0.723581,
+  "saved_result": "results/20250818_193330/Cooked-Result_20250818_193346.png",
+  "feather_radius": 8,
+  "grow_mask": 2,
+  "inner_clip": 15,
+  "gamma": 1.8
 }

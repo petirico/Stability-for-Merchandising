@@ -12,7 +12,7 @@ apply_project_protection: True
 apply_polo_protection: False
 save_debug_mask: True
 editable_ratio: 0.723581
-saved_result: results/20250818_193330/Cooked-Result_20250818_193346.png
+saved_result: results/20250818_194105/Cooked-Result_20250818_194123.png
 feather_radius: 8
 grow_mask: 2
 inner_clip: 15
