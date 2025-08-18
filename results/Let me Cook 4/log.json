@@ -1,0 +1,18 @@
+{
+  "api_endpoint": "https://api.stability.ai/v2beta/stable-image/edit/inpaint",
+  "accept": "image/*",
+  "output_format": "png",
+  "seed": 0,
+  "negative_prompt": "low quality, jpeg artifacts, noise, grain, motion blur, out of focus, overexposed, underexposed, harsh shadows, color banding, moire, color bleed, plastic skin, cartoon, illustration, cgi, 3d, deformed anatomy, extra limbs, warped fabric, bad perspective, duplicated person, reflection text, text, letters, words, typography, watermark, signature, logo, brand, misplaced label, sticker, badge, outline, border, halo, vignette, color shift, discoloration, crowd, extra text",
+  "prompt": "Photography, high-end fashion catalog, photorealistic. Subject: handsome 35-year-old male, neutral expression, chest-up mid-shot, facing camera, wearing a clean white polo shirt; natural fabric texture; preserve existing chest emblem; keep shirt color pure white. Background: Submerged ruins of an inverted glass cathedral rising from shallow neon-lit waters in post-AI Kyoto — stained glass shards refracting corrupted light patterns across the water; levitating data obelisks pulse faintly in the distance; moss-covered digital relics half-sunken at odd angles; floating koi-shaped surveillance drones drift silently above surface; distant mountain silhouettes barely visible through amber smog; soft bokeh blurs fractured reflections and collapsing spires. Lighting: surreal bioluminescent tones from underwater LED coral; faint uplight from submerged ruins; soft key light on subject’s face with cyan-magenta contrast fill; balanced exposure preserving shirt texture and emblem clarity. Lens: 85mm, f/2.0, shallow depth of field, ISO 100. Composition: centered subject with negative space for ethereal background drift; straight visual horizon, submerged structure lines guide eye into dreamlike perspective. ",
+  "image_path": "images-src/let-me-cook.png",
+  "mask_from": "mask/tshirt-1000.png",
+  "apply_project_protection": true,
+  "save_debug_mask": true,
+  "editable_ratio": 0.723581,
+  "saved_result": "results/20250818_200717/Cooked-Result_20250818_200735.png",
+  "feather_radius": 8,
+  "grow_mask": 1,
+  "inner_clip": 15,
+  "gamma": 1.8
+}

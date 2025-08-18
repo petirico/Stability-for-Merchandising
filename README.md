@@ -70,10 +70,10 @@ Parameters sent (multipart/form-data):
 - `output_format` (default `png`)
 - `seed` (0 = random on the API side)
 
-### Fonction principale et paramètres (let-me-cook-4.py)
-- `image_edit_background_and_face_mask(...)`: orchestre la création/combinaison du masque, l’adoucissement (plume) et l’appel API.
+### Main function and parameters (let-me-cook-4.py)
+- `image_edit_background_and_face_mask(...)`: orchestrates mask creation/combination, feathering, and the API call.
 
-Signature réelle dans le script:
+Actual signature in the script:
 ```
 include_background_mask: bool = False
 include_face_mask: bool = False
@@ -86,7 +86,7 @@ inner_clip: int = 15
 gamma: float = 1.8
 ```
 
-Astuce d’usage: lancez `python let-me-cook-4.py` pour les valeurs par défaut, puis ajustez les arguments en modifiant l’appel final à `image_edit_background_and_face_mask(...)` dans le fichier si vous souhaitez tester d’autres combinaisons.
+Tip: run `python let-me-cook-4.py` to use the default values, then adjust the arguments by editing the final call to `image_edit_background_and_face_mask(...)` in the file if you want to try other combinations.
 
 ### Troubleshooting
 - All-black mask => no editable area; check your options and `debug_final_mask_*.png`.
